@@ -1,0 +1,49 @@
+#PATH
+
+typeset -U path
+
+#include user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    path=("$HOME/bin" $path)
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    path=("$HOME/.local/bin" $path)
+fi
+
+if [ -d "$HOME/Applications" ] ; then
+    path=("$HOME/Applications" $path)
+fi
+
+#XDG PATHS
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_STATE_HOME=$HOME/.local/state
+export XDG_CACHE_HOME=$HOME/.cache
+
+#JAVA
+## link $HOME/java to relevant version of java ##
+export JAVA_HOME=$HOME/java/bin/java
+export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
+path=("$HOME/java/bin" $path)
+
+#ANSIBLE
+export ANSIBLE_HOME="$XDG_CONFIG_HOME"/ansible
+
+#LESS
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+# allow less to interpret color codes
+export LESS=-R
+
+#WINE
+export WINEPREFIX="$XDG_DATA_HOME"/wine
+
+#AWS
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
+
+#GRAMPS
+export GRAMPSHOME="$XDG_CONFIG_HOME"
+
+#SYSTEM76
+. "$HOME/.cargo/env"
